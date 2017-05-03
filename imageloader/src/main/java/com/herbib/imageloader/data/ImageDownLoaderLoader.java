@@ -2,7 +2,7 @@ package com.herbib.imageloader.data;
 
 import android.util.Log;
 
-import com.herbib.imageloader.utils.IOUtils;
+import com.herbib.imageloader.utils.ByteUtils;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -29,7 +29,7 @@ public class ImageDownLoaderLoader implements ImageDataLoader {
             URL targetUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) targetUrl.openConnection();
             stream = connection.getInputStream();
-            bytes = IOUtils.stream2Bytes(stream);
+            bytes = ByteUtils.stream2Bytes(stream);
             connection.disconnect();
         } catch (Exception e) {
             e.printStackTrace();

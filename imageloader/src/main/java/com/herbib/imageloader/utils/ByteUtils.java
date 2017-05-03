@@ -8,7 +8,7 @@ import java.io.InputStream;
  * IO相关工具
  */
 
-public class IOUtils {
+public class ByteUtils {
 
     public static byte[] stream2Bytes(InputStream inStream) {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -30,4 +30,6 @@ public class IOUtils {
         }
         return outStream.toByteArray();
     }
+
+
 }
