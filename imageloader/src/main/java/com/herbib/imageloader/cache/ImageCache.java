@@ -10,7 +10,8 @@ public interface ImageCache {
     enum CacheType {
         MEMORY,
         DICK,
-        DOUBLE
+        DOUBLE,
+        NONE
     }
     void put(String key, Bitmap bitmap);
     Bitmap get(String key);

@@ -14,7 +14,7 @@ import static com.herbib.imageloader.Contants.TAG;
  * 图片文件下载
  */
 
-public class ImageDownLoaderLoader implements ImageDataLoader {
+public class DownLoadData implements ImageDataLoader {
 
     @Override
     public byte[] readyData(String path) {

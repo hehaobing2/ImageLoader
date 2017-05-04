@@ -10,18 +10,22 @@ import com.herbib.imageloader.utils.StringUtils;
 
 public class DoubleCache implements ImageCache {
     private MemoryCache mMemoryCache;
-    private DickCache mDickCache;
+    private DiskCache mDiskCache;
 
     public DoubleCache() {
         mMemoryCache = new MemoryCache();
-        mDickCache = new DickCache();
+        mDiskCache = new DiskCache();
+    }
+
+    public void put(String key, Bitmap bitmap, ImageCache.CacheType type) {
+        String hashKey = StringUtils.string2Hash(key);
+        mMemoryCache.put(hashKey, bitmap);
+        mDiskCache.put(hashKey, bitmap);
     }
 
     @Override
     public void put(String key, Bitmap bitmap) {
-        String hashKey = StringUtils.string2Hash(key);
-        mMemoryCache.put(hashKey, bitmap);
-        mDickCache.put(hashKey, bitmap);
+        put(key, bitmap, CacheType.DOUBLE);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class DoubleCache implements ImageCache {
         String hashKey = StringUtils.string2Hash(key);
         Bitmap bitmap = mMemoryCache.get(hashKey);
         if (bitmap == null) {
-            bitmap = mDickCache.get(hashKey);
+            bitmap = mDiskCache.get(hashKey);
         }
         return bitmap;
     }

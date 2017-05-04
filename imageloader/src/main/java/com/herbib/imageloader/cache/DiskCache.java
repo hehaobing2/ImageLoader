@@ -20,10 +20,10 @@ import static android.os.Environment.MEDIA_MOUNTED;
  * 图片文件缓存
  */
 
-public class DickCache implements ImageCache {
+public class DiskCache implements ImageCache {
     private final String mRootPath;
 
-    public DickCache() {
+    public DiskCache() {
         String externalStorageState = Environment.getExternalStorageState();
         StringBuilder sb = new StringBuilder();
         if (MEDIA_MOUNTED.equals(externalStorageState)) {

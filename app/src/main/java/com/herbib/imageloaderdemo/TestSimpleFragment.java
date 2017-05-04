@@ -14,6 +14,8 @@ import android.widget.ImageView;
 
 import com.herbib.imageloader.ImageLoader;
 import com.herbib.imageloader.cache.ImageCache;
+import com.herbib.imageloader.config.ImageLoaderConfig;
+import com.herbib.imageloader.config.ImageLoaderPolicy;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -60,7 +62,12 @@ public class TestSimpleFragment extends Fragment {
         checkPermissions();
         int index = new Random().nextInt(4);
         ImageLoader loader = ImageLoader.getInstance();
-        loader.setImageCacheType(ImageCache.CacheType.DICK);
+        ImageLoaderConfig config = new ImageLoaderConfig.Builder()
+                .cacheType(ImageCache.CacheType.DOUBLE)
+                .errorImage(R.mipmap.error)
+                .loadingImage(R.mipmap.loading)
+                .build();
+        loader.config(config);
         loader.display(imageView, mUrls[index]);
         Log.d(TAG, "加载图片完成");
     }
