@@ -1,14 +1,18 @@
 package com.herbib.imageloader;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.herbib.imageloader.cache.ImageCache;
 import com.herbib.imageloader.config.ImageLoaderConfig;
-import com.herbib.imageloader.data.ImageDataLoader;
 import com.herbib.imageloader.data.DownLoadData;
+import com.herbib.imageloader.data.ImageData;
+import com.herbib.imageloader.data.ImageDataFactory;
+import com.herbib.imageloader.data.ResourceData;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,19 +23,18 @@ import static com.herbib.imageloader.Contants.TAG;
  */
 
 public class ImageLoader {
-    private static final int DEFAULT_WIDTH = 500;
-    private static final int DEFAULT_HEIGHT = 400;
 
     private static ImageLoader sInstance = new ImageLoader();
 
     private ImageLoaderConfig mConfig;
-    private ImageDataLoader mImageDataLoader;
+    private ImageData mImageData;
+    private ImageCache mImageCache;
     private ImageDisplay mImageDisplay;
     private ExecutorService mExecutorService;
 
     private ImageLoader() {
         mConfig = new ImageLoaderConfig();
-        mImageDataLoader = new DownLoadData();
+        mImageData = new DownLoadData();
         mImageDisplay = new ImageDisplay();
     }
 
@@ -41,6 +44,7 @@ public class ImageLoader {
 
     public void config(ImageLoaderConfig config) {
         mConfig = config;
+        mImageCache = config.imageCache;
     }
 
     public void display(final ImageView view, final String url) {
@@ -51,31 +55,34 @@ public class ImageLoader {
         mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                mImageDisplay.showImage(view, mConfig.displayConfig.loadingImageResourceID);
-                Bitmap bitmap =
-                        cache == null ?
-                                null : cache.get(url);
-                Log.d(TAG, String.format("使用%s缓存，缓存是否为%s：", mConfig.imageCache, (bitmap == null)));
+                Bitmap loading = mImageDisplay.readBytes(
+                        ImageDataFactory.getImageData(ResourceData.class).readyData(view.getContext(), mConfig.displayConfig.loadingImageResourceID),
+                        view);
+                mImageDisplay.showImage(view, loading);
+
+                Bitmap bitmap = cache.get(url);
+                Log.d(TAG, String.format("使用%s缓存，缓存是否为%s：", mConfig.imageCache, bitmap == null));
                 if (bitmap == null) {
-                    byte[] bytes = mImageDataLoader.readyData(url);
+                    readyDataFactory();
+                    byte[] bytes = mImageData.readyData(view.getContext(), url);
                     if (bytes == null || bytes.length == 0) {
                         Log.d(TAG, "下载图片大小为0");
-                        mImageDisplay.showImage(view, mConfig.displayConfig.errorImageResourceID);
+                        Bitmap error = mImageDisplay.readBytes(
+                                ImageDataFactory.getImageData(ResourceData.class).readyData(view.getContext(), mConfig.displayConfig.errorImageResourceID),
+                                view);
+                        mImageDisplay.showImage(view, error);
                         return;
                     }
-                    int width = view.getWidth() == 0 ? DEFAULT_WIDTH : view.getWidth();
-                    int height = view.getHeight() == 0 ? DEFAULT_HEIGHT : view.getHeight();
-
-                    Log.d(TAG, String.format("ImageView的宽：%s, 高：%s, ", width, height));
-                    bitmap = mImageDisplay.readBytes(bytes, width, height);
-                    Log.d(TAG, String.format("采样后的Bitmap大小是：%s", bitmap.getByteCount()));
-
-                    if (cache != null) {
-                        cache.put(url, bitmap);
-                    }
+                    bitmap = mImageDisplay.readBytes(bytes, view);
+                    cache.put(url, bitmap);
                 }
+
                 mImageDisplay.showImage(view, bitmap);
             }
         });
+    }
+
+    private void readyDataFactory() {
+        mImageData = ImageDataFactory.getImageData(DownLoadData.class);
     }
 }

@@ -4,7 +4,7 @@ import com.herbib.imageloader.cache.DiskCache;
 import com.herbib.imageloader.cache.DoubleCache;
 import com.herbib.imageloader.cache.ImageCache;
 import com.herbib.imageloader.cache.MemoryCache;
-import com.herbib.imageloader.data.ImageDataLoader;
+import com.herbib.imageloader.data.ImageData;
 import com.herbib.imageloader.data.DownLoadData;
 
 
@@ -14,7 +14,6 @@ import com.herbib.imageloader.data.DownLoadData;
 
 public class ImageLoaderConfig {
     public ImageCache imageCache = new MemoryCache();
-    public ImageDataLoader imageData = new DownLoadData();
     public DisplayConfig displayConfig = new DisplayConfig();
     public int threadCount = Runtime.getRuntime().availableProcessors() / 4;
 

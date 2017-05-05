@@ -11,6 +11,9 @@ import java.io.InputStream;
 public class ByteUtils {
 
     public static byte[] stream2Bytes(InputStream inStream) {
+        if (inStream == null) {
+            return new byte[]{};
+        }
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;

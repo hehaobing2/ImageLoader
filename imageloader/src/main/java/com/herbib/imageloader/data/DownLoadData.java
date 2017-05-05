@@ -1,5 +1,6 @@
 package com.herbib.imageloader.data;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.herbib.imageloader.utils.ByteUtils;
@@ -14,15 +15,15 @@ import static com.herbib.imageloader.Contants.TAG;
  * 图片文件下载
  */
 
-public class DownLoadData implements ImageDataLoader {
+public class DownLoadData extends ImageData {
 
     @Override
-    public byte[] readyData(String path) {
-        return download(path);
+    public byte[] readyData(Context context, Object path) {
+        return download((String) path);
     }
 
     private byte[] download(String url) {
-        Log.d("ImageLoader", "开始下载图片，目标地址：" + url);
+        Log.d(TAG, "开始下载图片，目标地址：" + url);
         InputStream stream = null;
         byte[] bytes = null;
         try {
