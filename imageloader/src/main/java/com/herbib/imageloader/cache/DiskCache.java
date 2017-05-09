@@ -47,7 +47,7 @@ public class DiskCache implements ImageCache {
 
     @Override
     public void put(String key, Bitmap bitmap) {
-        File file = new File(mRootPath, StringUtils.string2Hash(key) + ".jpg");
+        File file = new File(mRootPath, StringUtils.hashKey(key) + ".jpg");
         if (file.exists()) {
             file.delete();
         } else {
@@ -82,7 +82,7 @@ public class DiskCache implements ImageCache {
     public Bitmap get(String key) {
         StringBuilder sb = new StringBuilder()
                 .append(mRootPath)
-                .append(StringUtils.string2Hash(key))
+                .append(StringUtils.hashKey(key))
                 .append(".jpg");
         Log.d(TAG, String.format("读取图片文件：%s", sb.toString()));
         return BitmapFactory.decodeFile(sb.toString());

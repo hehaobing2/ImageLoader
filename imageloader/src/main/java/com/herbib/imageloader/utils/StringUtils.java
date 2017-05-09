@@ -6,7 +6,7 @@ package com.herbib.imageloader.utils;
 
 public class StringUtils {
 
-    public static String string2Hash(String key) {
+    public static String hashKey(Object key) {
         return String.valueOf(key.hashCode());
     }
 

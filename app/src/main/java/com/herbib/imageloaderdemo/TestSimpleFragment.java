@@ -10,15 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ListView;
 
-import com.herbib.imageloader.ImageLoader;
-import com.herbib.imageloader.cache.ImageCache;
-import com.herbib.imageloader.config.ImageLoaderConfig;
-import com.herbib.imageloader.config.ImageLoaderPolicy;
-
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -28,11 +23,35 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  */
 
 public class TestSimpleFragment extends Fragment {
-    private String[] mUrls = new String[]{
+    private Object[] mUrls = new Object[]{
             "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
             "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg",
             "http://img2.imgtn.bdimg.com/it/u=2678372840,2244387540&fm=214&gp=0.jpg",
-            "http://img0.imgtn.bdimg.com/it/u=4195805644,827754888&fm=23&gp=0.jpg"
+            "http://img0.imgtn.bdimg.com/it/u=4195805644,827754888&fm=23&gp=0.jpg",
+            Integer.valueOf(R.mipmap.error),
+            Integer.valueOf(R.mipmap.loading),
+            Integer.valueOf(R.mipmap.picture),
+            "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
+            "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=2678372840,2244387540&fm=214&gp=0.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=4195805644,827754888&fm=23&gp=0.jpg",
+            Integer.valueOf(R.mipmap.error),
+            Integer.valueOf(R.mipmap.loading),
+            Integer.valueOf(R.mipmap.picture),
+            "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
+            "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=2678372840,2244387540&fm=214&gp=0.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=4195805644,827754888&fm=23&gp=0.jpg",
+            Integer.valueOf(R.mipmap.error),
+            Integer.valueOf(R.mipmap.loading),
+            Integer.valueOf(R.mipmap.picture),
+            "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
+            "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg",
+            "http://img2.imgtn.bdimg.com/it/u=2678372840,2244387540&fm=214&gp=0.jpg",
+            "http://img0.imgtn.bdimg.com/it/u=4195805644,827754888&fm=23&gp=0.jpg",
+            Integer.valueOf(R.mipmap.error),
+            Integer.valueOf(R.mipmap.loading),
+            Integer.valueOf(R.mipmap.picture),
     };
     private String[] mPermissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -48,28 +67,14 @@ public class TestSimpleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView imageView = (ImageView) view.findViewById(R.id.iv_simple);
-        showImage(imageView);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImage((ImageView) v);
-            }
-        });
-    }
-
-    private void showImage(ImageView imageView) {
         checkPermissions();
-        int index = new Random().nextInt(4);
-        ImageLoader loader = ImageLoader.getInstance();
-        ImageLoaderConfig config = new ImageLoaderConfig.Builder()
-                .cacheType(ImageCache.CacheType.DOUBLE)
-                .errorImage(R.mipmap.error)
-                .loadingImage(R.mipmap.loading)
-                .build();
-        loader.config(config);
-        loader.display(imageView, mUrls[index]);
-        Log.d(TAG, "加载图片完成");
+        ArrayList<Object> list = new ArrayList<>();
+        for (Object url : mUrls) {
+            list.add(url);
+        }
+        ListView lv = (ListView) view.findViewById(R.id.lv);
+        ImageAdapter adapter = new ImageAdapter(getContext(), list);
+        lv.setAdapter(adapter);
     }
 
     private void checkPermissions() {
@@ -94,5 +99,10 @@ public class TestSimpleFragment extends Fragment {
             }
             Log.d(TAG, "onRequestPermissionsResult: \n" + p.toString());
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

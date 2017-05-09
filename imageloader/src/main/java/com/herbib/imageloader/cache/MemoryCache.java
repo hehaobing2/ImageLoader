@@ -24,11 +24,11 @@ public class MemoryCache implements ImageCache {
 
     @Override
     public void put(String key, Bitmap bitmap) {
-        mMemoryCache.put(StringUtils.string2Hash(key), bitmap);
+        mMemoryCache.put(StringUtils.hashKey(key), bitmap);
     }
 
     @Override
     public Bitmap get(String key) {
-        return mMemoryCache.get(StringUtils.string2Hash(key));
+        return mMemoryCache.get(StringUtils.hashKey(key));
     }
 }

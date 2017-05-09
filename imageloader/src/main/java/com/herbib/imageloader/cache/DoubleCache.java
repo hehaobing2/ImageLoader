@@ -17,20 +17,16 @@ public class DoubleCache implements ImageCache {
         mDiskCache = new DiskCache();
     }
 
-    public void put(String key, Bitmap bitmap, ImageCache.CacheType type) {
-        String hashKey = StringUtils.string2Hash(key);
+    @Override
+    public void put(String key, Bitmap bitmap) {
+        String hashKey = StringUtils.hashKey(key);
         mMemoryCache.put(hashKey, bitmap);
         mDiskCache.put(hashKey, bitmap);
     }
 
     @Override
-    public void put(String key, Bitmap bitmap) {
-        put(key, bitmap, CacheType.DOUBLE);
-    }
-
-    @Override
     public Bitmap get(String key) {
-        String hashKey = StringUtils.string2Hash(key);
+        String hashKey = StringUtils.hashKey(key);
         Bitmap bitmap = mMemoryCache.get(hashKey);
         if (bitmap == null) {
             bitmap = mDiskCache.get(hashKey);

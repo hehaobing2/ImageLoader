@@ -7,12 +7,7 @@ import android.graphics.Bitmap;
  */
 
 public interface ImageCache {
-    enum CacheType {
-        MEMORY,
-        DICK,
-        DOUBLE,
-        NONE
-    }
     void put(String key, Bitmap bitmap);
+
     Bitmap get(String key);
 }
