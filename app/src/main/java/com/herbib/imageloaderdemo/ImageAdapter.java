@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.herbib.imageloader.ImageLoader;
-import com.herbib.imageloader.config.DefaultConfig;
-import com.herbib.imageloader.config.LoaderConfig;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,14 +18,15 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private List<Object> mList;
     private LayoutInflater mInflater;
-    private ImageLoader mLoader;
+//    private ImageLoader mLoader;
 
     public ImageAdapter(Context context, List<Object> mList) {
         this.mList = mList;
         mInflater = LayoutInflater.from(context);
-        mLoader = ImageLoader.getInstance();
-        LoaderConfig config = new DefaultConfig();
-        mLoader.initConfig(config);
+//        mLoader = ImageLoader.getInstance();
+//        LoaderConfig config = new DefaultConfig();
+//        mLoader.initConfig(config);
+
     }
 
     @Override
@@ -57,14 +56,20 @@ public class ImageAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         Object target = mList.get(position);
         if (target instanceof String) {
-            mLoader.display(holder.iv, (String) target);
+            Picasso.with(convertView.getContext())
+                    .load((String) target)
+                    .into(holder.iv);
+//            mLoader.display(holder.iv, (String) target);
         } else {
-            mLoader.display(holder.iv, (Integer) target);
+            Picasso.with(convertView.getContext())
+                    .load((Integer) target)
+                    .into(holder.iv);
+//            mLoader.display(holder.iv, (Integer) target);
         }
         return convertView;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView iv;
     }
 }

@@ -1,6 +1,10 @@
 package com.herbib.imageloaderdemo;
 
 import android.Manifest;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.ImageView;
 
-import java.util.ArrayList;
+import com.herbib.imageloader.view.BigImageView;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
@@ -22,7 +29,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  * 图片加载Demo
  */
 
-public class TestSimpleFragment extends Fragment {
+public class TestSimpleFragment extends Fragment implements View.OnClickListener {
     private Object[] mUrls = new Object[]{
             "http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg",
             "http://img05.tooopen.com/images/20150531/tooopen_sy_127457023651.jpg",
@@ -68,13 +75,34 @@ public class TestSimpleFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         checkPermissions();
-        ArrayList<Object> list = new ArrayList<>();
-        for (Object url : mUrls) {
-            list.add(url);
+        ImageView iv = (ImageView) view.findViewById(R.id.iv);
+        BigImageView bigIv = (BigImageView) view.findViewById(R.id.iv_big);
+        bigIv.assets("img_13896_5593.jpg");
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            InputStream stream = getResources().getAssets().open("big_image.jpg");
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            Bitmap oldBitmap = BitmapFactory.decodeStream(stream, null, options);
+            int width = options.outWidth;
+            int height = options.outHeight;
+            Log.d("TestSimple", "bitmap原始Size：(" + width + ", " + height + ")");
+            BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(stream, false);
+            Rect rect = new Rect(width / 2 - 100, height / 2 - 100, width / 2 + 100, height / 2 + 100);
+            BitmapFactory.Options newOptions = new BitmapFactory.Options();
+            Bitmap bitmap = decoder.decodeRegion(rect, newOptions);
+            int newWidth = bitmap.getWidth();
+            int newHeight = bitmap.getHeight();
+            Log.d("TestSimple", "bitmap加载Size：(" + newWidth + ", " + newHeight + ")");
+            ImageView iv = (ImageView) v;
+            iv.setImageBitmap(bitmap);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        ListView lv = (ListView) view.findViewById(R.id.lv);
-        ImageAdapter adapter = new ImageAdapter(getContext(), list);
-        lv.setAdapter(adapter);
     }
 
     private void checkPermissions() {
@@ -104,5 +132,6 @@ public class TestSimpleFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+//        ImageLoader.getInstance().stop();
     }
 }
