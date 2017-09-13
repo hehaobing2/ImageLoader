@@ -8,11 +8,11 @@ import com.herbib.imageloader.utils.StringUtils;
  * 图片双缓存
  */
 
-public class DoubleCache implements ImageCache {
+class DoubleCache implements ImageCache {
     private MemoryCache mMemoryCache;
     private DiskCache mDiskCache;
 
-    public DoubleCache() {
+    DoubleCache() {
         mMemoryCache = new MemoryCache();
         mDiskCache = new DiskCache();
     }

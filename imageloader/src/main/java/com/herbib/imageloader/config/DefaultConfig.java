@@ -1,6 +1,6 @@
 package com.herbib.imageloader.config;
 
-import com.herbib.imageloader.cache.DoubleCache;
+import com.herbib.imageloader.cache.CacheFactory;
 import com.herbib.imageloader.policy.ReversePolicy;
 
 /**
@@ -10,7 +10,7 @@ import com.herbib.imageloader.policy.ReversePolicy;
 public class DefaultConfig extends LoaderConfig{
 
     public DefaultConfig() {
-        imageCache = new DoubleCache();
+        imageCache = CacheFactory.getCache(CacheFactory.DOUBLE);
         policy = new ReversePolicy();
         threadCount = Runtime.getRuntime().availableProcessors();
     }

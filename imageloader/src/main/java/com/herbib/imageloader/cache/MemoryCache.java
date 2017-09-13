@@ -9,10 +9,10 @@ import com.herbib.imageloader.utils.StringUtils;
  * 图片内存缓存
  */
 
-public class MemoryCache implements ImageCache {
+class MemoryCache implements ImageCache {
     private final LruCache<String, Bitmap> mMemoryCache;
 
-    public MemoryCache() {
+    MemoryCache() {
         mMemoryCache = new LruCache<String, Bitmap>((int) (Runtime.getRuntime().maxMemory() / 1024 / 4)) {
             @Override
             protected int sizeOf(String key, Bitmap value) {

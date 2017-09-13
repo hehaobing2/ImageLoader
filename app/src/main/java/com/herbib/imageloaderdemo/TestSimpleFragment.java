@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.herbib.imageloader.view.BigImageView;
+import com.herbib.imageloader.view.bigimageview.BigImageView;
 
 import java.io.IOException;
 import java.io.InputStream;

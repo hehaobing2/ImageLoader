@@ -6,10 +6,9 @@ import android.graphics.Bitmap;
  * 不缓存
  */
 
-public class NoneCache implements ImageCache {
+class NoneCache implements ImageCache {
     @Override
     public void put(String key, Bitmap bitmap) {
-
     }
 
     @Override

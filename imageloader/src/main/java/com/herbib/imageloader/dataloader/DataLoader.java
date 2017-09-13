@@ -1,8 +1,8 @@
-package com.herbib.imageloader.load;
+package com.herbib.imageloader.dataloader;
 
 import android.graphics.Bitmap;
 
-import com.herbib.imageloader.request.ImageRequest;
+import com.herbib.imageloader.ImageRequest;
 
 /**
  * 数据加载器

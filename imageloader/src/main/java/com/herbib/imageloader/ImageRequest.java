@@ -1,21 +1,20 @@
-package com.herbib.imageloader.request;
+package com.herbib.imageloader;
 
 import android.widget.ImageView;
-
-import com.herbib.imageloader.load.DataLoader;
 
 import java.lang.ref.WeakReference;
 
 /**
  * 图片加载请求
+ * @param <T> 目标路径的数据类型
  */
-public abstract class ImageRequest<T> {
+public class ImageRequest<T> {
     public int policyNum;
     public T target;
-    public Class<DataLoader> loaderClass;
+    public Class loaderClass;
     public WeakReference<ImageView> view;
 
-    public ImageRequest(T target, ImageView view, Class loader) {
+    public ImageRequest(ImageView view, T target, Class loader) {
         this.target = target;
         this.loaderClass = loader;
         this.view = new WeakReference<>(view);

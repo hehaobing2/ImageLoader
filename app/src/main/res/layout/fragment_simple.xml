@@ -16,7 +16,7 @@
         android:layout_height="400dp"
         android:visibility="gone" />
 
-    <com.herbib.imageloader.view.BigImageView
+    <com.herbib.imageloader.view.bigimageview.BigImageView
         android:id="@+id/iv_big"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

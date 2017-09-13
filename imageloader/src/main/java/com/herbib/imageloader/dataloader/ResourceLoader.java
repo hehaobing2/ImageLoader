@@ -1,17 +1,18 @@
-package com.herbib.imageloader.load;
+package com.herbib.imageloader.dataloader;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
-import com.herbib.imageloader.request.ImageRequest;
+import com.herbib.imageloader.utils.BitmapOptionCreator;
+import com.herbib.imageloader.ImageRequest;
 
 /**
  * 资源文件加载
  */
 
-public class ResourceLoader extends DataLoader {
+class ResourceLoader extends DataLoader {
     @Override
     public Bitmap getBitmap(ImageRequest request) {
         if (request == null ||

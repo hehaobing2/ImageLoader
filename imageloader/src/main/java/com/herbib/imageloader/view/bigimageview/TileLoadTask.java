@@ -1,4 +1,4 @@
-package com.herbib.imageloader.view;
+package com.herbib.imageloader.view.bigimageview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

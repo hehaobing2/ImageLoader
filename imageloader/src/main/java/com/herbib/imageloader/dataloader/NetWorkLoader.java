@@ -1,10 +1,11 @@
-package com.herbib.imageloader.load;
+package com.herbib.imageloader.dataloader;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
-import com.herbib.imageloader.request.ImageRequest;
+import com.herbib.imageloader.utils.BitmapOptionCreator;
+import com.herbib.imageloader.ImageRequest;
 import com.herbib.imageloader.utils.ByteUtils;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.net.URL;
  * 网络加载图片
  */
 
-public class DownLoader extends DataLoader {
+class NetWorkLoader extends DataLoader {
 
     @Override
     public Bitmap getBitmap(ImageRequest request) {
@@ -30,6 +31,7 @@ public class DownLoader extends DataLoader {
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             InputStream is = conn.getInputStream();
+            //用于BitmapFactory.decodeStream()无法解析Bug
             final byte[] bytes = ByteUtils.stream2Bytes(is);
             BitmapFactory.Options options = BitmapOptionCreator.getOptions((ImageView) request.view.get(), new BitmapOptionCreator.OnLoadBitmap() {
                 @Override

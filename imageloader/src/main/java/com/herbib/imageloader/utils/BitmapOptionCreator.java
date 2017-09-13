@@ -1,15 +1,15 @@
-package com.herbib.imageloader.load;
+package com.herbib.imageloader.utils;
 
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
+
+import com.herbib.imageloader.utils.BitmapSize;
 
 /**
  * BitmapFactory.Options构造器
  */
 
 public class BitmapOptionCreator {
-    private static final int DEFAULT_WIDTH = 500;
-    private static final int DEFAULT_HEIGHT = 400;
 
     public static BitmapFactory.Options getOptions(ImageView view, OnLoadBitmap onLoadBitmap) {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -18,22 +18,23 @@ public class BitmapOptionCreator {
         }
         options.inJustDecodeBounds = true;
         onLoadBitmap.onDecode(options);
-        options.inSampleSize = calculateScale(options, view);
+        BitmapSize defaultSize = null;
+        options.inSampleSize = calculateScale(options, view, defaultSize);
         options.inJustDecodeBounds = false;
         return options;
     }
 
-    private static int calculateScale(BitmapFactory.Options options, ImageView view) {
-        int widthScale = 0;
-        int heightScale = 0;
+    private static int calculateScale(BitmapFactory.Options options, ImageView view, BitmapSize defaultSize) {
+        int widthScale;
+        int heightScale;
         if (view.getWidth() == 0) {
-            widthScale = options.outWidth / DEFAULT_WIDTH;
+            widthScale = options.outWidth / defaultSize.getWidth();
         } else {
             widthScale = options.outWidth / view.getWidth();
         }
         widthScale = widthScale < 1 ? 1 : widthScale;
         if (view.getHeight() == 0) {
-            heightScale = options.outHeight / DEFAULT_HEIGHT;
+            heightScale = options.outHeight / defaultSize.getHeight();
         } else {
             heightScale = options.outHeight / view.getHeight();
         }
@@ -41,7 +42,7 @@ public class BitmapOptionCreator {
         return Math.max(widthScale, heightScale);
     }
 
-    interface OnLoadBitmap {
+    public interface OnLoadBitmap {
         void onDecode(BitmapFactory.Options options);
     }
 }

@@ -1,14 +1,14 @@
-package com.herbib.imageloader.load;
+package com.herbib.imageloader.dataloader;
 
 import android.graphics.Bitmap;
 
-import com.herbib.imageloader.request.ImageRequest;
+import com.herbib.imageloader.ImageRequest;
 
 /**
  * 无图片加载器
  */
 
-public class NoneLoader extends DataLoader {
+class NoneLoader extends DataLoader {
     @Override
     public Bitmap getBitmap(ImageRequest request) {
         return null;

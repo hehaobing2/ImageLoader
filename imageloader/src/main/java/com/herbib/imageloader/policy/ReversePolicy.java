@@ -1,6 +1,6 @@
 package com.herbib.imageloader.policy;
 
-import com.herbib.imageloader.request.ImageRequest;
+import com.herbib.imageloader.ImageRequest;
 
 /**
  * 逆序策略，即LIFO

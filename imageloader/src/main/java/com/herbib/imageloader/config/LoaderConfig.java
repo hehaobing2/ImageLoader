@@ -1,6 +1,7 @@
 package com.herbib.imageloader.config;
 
 import com.herbib.imageloader.cache.ImageCache;
+import com.herbib.imageloader.dataloader.DataLoader;
 import com.herbib.imageloader.policy.LoaderPolicy;
 
 
@@ -11,6 +12,7 @@ import com.herbib.imageloader.policy.LoaderPolicy;
 public class LoaderConfig {
     public ImageCache imageCache;
     public LoaderPolicy policy;
+    public DataLoader loader;
     public int threadCount;
     public int loadingImageResourceID;
     public int errorImageResourceID;
@@ -44,6 +46,11 @@ public class LoaderConfig {
 
         public Builder policy(LoaderPolicy policy) {
             C.policy = policy;
+            return this;
+        }
+
+        public Builder loader(DataLoader loader) {
+            C.loader = loader;
             return this;
         }
 

@@ -1,4 +1,4 @@
-package com.herbib.imageloader;
+package com.herbib.imageloader.utils;
 
 /**
  * 常量
